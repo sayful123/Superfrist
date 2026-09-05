@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Super Frist</string>
+    <string name="app_tagline">Next-Gen Secure VPN Protection</string>
+    <string name="activation_title">Device Activation</string>
+    <string name="activation_subtitle">Enter your activation code to unlock secure global VPN access</string>
+    <string name="activation_code_hint">VPN-XXXX-XXXX-XXXX</string>
+    <string name="activate_button">ACTIVATE</string>
+    <string name="activating">Activating…</string>
+    <string name="verifying_session">Verifying Secure Session…</string>
+    <string name="status_disconnected">DISCONNECTED</string>
+    <string name="status_connecting">CONNECTING</string>
+    <string name="status_connected">CONNECTED</string>
+    <string name="status_disconnecting">DISCONNECTING</string>
+    <string name="button_connect">CONNECT</string>
+    <string name="button_disconnect">DISCONNECT</string>
+    <string name="current_server">Current Server</string>
+    <string name="remaining_validity">Remaining Validity</string>
+    <string name="connection_time">Connection Time</string>
+    <string name="virtual_ip">Current IP Address</string>
+    <string name="ping_latency">Ping / Latency</string>
+    <string name="download_speed">Download Speed</string>
+    <string name="upload_speed">Upload Speed</string>
+    <string name="change_server">Change Server</string>
+    <string name="select_vpn_server">Select VPN Server</string>
+    <string name="settings_title">Settings</string>
+    <string name="err_invalid_code">Invalid Activation Code</string>
+    <string name="err_expired_code">Activation Code Expired</string>
+    <string name="err_disabled_code">Activation Code Disabled</string>
+    <string name="err_device_bound">Code Already Activated on Another Device</string>
+    <string name="vpn_notification_channel">Super Frist VPN Service</string>
+    <string name="vpn_notification_channel_desc">Active VPN connection status and telemetry</string>
+</resources>

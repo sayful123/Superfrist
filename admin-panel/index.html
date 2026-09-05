@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Super Frist VPN - Enterprise Admin Console</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="cyber-theme">
+  <!-- Login Screen -->
+  <div id="login-modal" class="modal-overlay">
+    <div class="login-card">
+      <div class="brand-badge">
+        <div class="shield-icon">🛡️</div>
+      </div>
+      <h2>Super Frist Control Center</h2>
+      <p class="subtitle">Enter administrator credentials to authenticate</p>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label for="admin-email">Admin Email / Username</label>
+          <input type="text" id="admin-email" value="admin@superfrist.vpn" required autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label for="admin-password">Password</label>
+          <input type="password" id="admin-password" value="Admin@2026!" required autocomplete="current-password">
+        </div>
+        <div id="login-error" class="error-msg" style="display:none;"></div>
+        <button type="submit" class="btn btn-primary btn-block">AUTHENTICATE</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Main Admin Application -->
+  <div id="admin-app" style="display: none;">
+    <!-- Top Bar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <div class="app-logo">🛡️</div>
+        <div>
+          <h1 class="app-title">SUPER FRIST</h1>
+          <span class="app-subtitle">VPN Cloud Orchestration System</span>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="status-indicator">
+          <span class="status-dot"></span>
+          <span>Cluster Online</span>
+        </div>
+        <div class="admin-profile">
+          <span id="admin-user-display">admin@superfrist.vpn</span>
+          <button id="logout-btn" class="btn btn-sm btn-outline">Logout</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- App Container -->
+    <div class="app-container">
+      <!-- Sidebar Navigation -->
+      <aside class="sidebar">
+        <nav class="nav-menu">
+          <button class="nav-item active" data-tab="overview">
+            <span class="nav-icon">📊</span> Overview & Metrics
+          </button>
+          <button class="nav-item" data-tab="generator">
+            <span class="nav-icon">⚡</span> Code Generator
+          </button>
+          <button class="nav-item" data-tab="codes">
+            <span class="nav-icon">🔑</span> Code Management
+          </button>
+          <button class="nav-item" data-tab="servers">
+            <span class="nav-icon">🌐</span> Global Servers
+          </button>
+          <button class="nav-item" data-tab="connections">
+            <span class="nav-icon">📡</span> Live Tunnels
+          </button>
+          <button class="nav-item" data-tab="audit">
+            <span class="nav-icon">📝</span> Audit Logs
+          </button>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="protocol-badge">WireGuard® Core v1.0</div>
+          <div class="copyright">Zero-Logs Encrypted Cluster</div>
+        </div>
+      </aside>
+
+      <!-- Main Content Views -->
+      <main class="main-content">
+        <!-- 1. Overview Tab -->
+        <section id="tab-overview" class="tab-pane active">
+          <div class="section-header">
+            <h2>Telemetry & System Overview</h2>
+            <span class="refresh-indicator" id="last-refresh-time">Updated: Just now</span>
+          </div>
+
+          <!-- Stats Grid -->
+          <div class="stats-grid">
+            <div class="stat-card cyan">
+              <div class="stat-label">Total Users</div>
+              <div class="stat-val" id="metric-total-users">124</div>
+              <div class="stat-sub">Registered activations</div>
+            </div>
+            <div class="stat-card emerald">
+              <div class="stat-label">Active Users</div>
+              <div class="stat-val" id="metric-active-users">89</div>
+              <div class="stat-sub">Valid subscription pass</div>
+            </div>
+            <div class="stat-card amber">
+              <div class="stat-label">Expired Users</div>
+              <div class="stat-val" id="metric-expired-users">35</div>
+              <div class="stat-sub">Requires pass renewal</div>
+            </div>
+            <div class="stat-card blue">
+              <div class="stat-label">Total Codes</div>
+              <div class="stat-val" id="metric-total-codes">250</div>
+              <div class="stat-sub">In database inventory</div>
+            </div>
+            <div class="stat-card cyan">
+              <div class="stat-label">Unused Codes</div>
+              <div class="stat-val" id="metric-unused-codes">126</div>
+              <div class="stat-sub">Ready for distribution</div>
+            </div>
+            <div class="stat-card emerald">
+              <div class="stat-label">Live Connections</div>
+              <div class="stat-val" id="metric-active-conns">42</div>
+              <div class="stat-sub">Active WireGuard tunnels</div>
+            </div>
+            <div class="stat-card emerald">
+              <div class="stat-label">Online Nodes</div>
+              <div class="stat-val" id="metric-online-servers">6</div>
+              <div class="stat-sub">Optimal cluster health</div>
+            </div>
+            <div class="stat-card rose">
+              <div class="stat-label">Offline Nodes</div>
+              <div class="stat-val" id="metric-offline-servers">0</div>
+              <div class="stat-sub">Zero maintenance issues</div>
+            </div>
+          </div>
+
+          <!-- Quick Node Health Table -->
+          <div class="card mt-4">
+            <div class="card-header">
+              <h3>Cluster Node Status</h3>
+              <button class="btn btn-sm btn-outline" id="refresh-servers-btn">Refresh</button>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Location</th>
+                    <th>Protocol</th>
+                    <th>Host Endpoint</th>
+                    <th>Latency</th>
+                    <th>Current Load</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="overview-nodes-tbody">
+                  <!-- Injected via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. Code Generator Tab -->
+        <section id="tab-generator" class="tab-pane">
+          <div class="section-header">
+            <h2>Generate Activation Codes</h2>
+            <p class="text-muted">Issue cryptographically random, batch-verifiable activation codes for users</p>
+          </div>
+
+          <div class="card">
+            <form id="generator-form">
+              <div class="form-row">
+                <div class="form-group col-4">
+                  <label for="gen-prefix">Code Prefix</label>
+                  <input type="text" id="gen-prefix" value="VPN" maxlength="6">
+                </div>
+                <div class="form-group col-4">
+                  <label for="gen-count">Number of Codes (1 - 500)</label>
+                  <input type="number" id="gen-count" value="5" min="1" max="500">
+                </div>
+                <div class="form-group col-4">
+                  <label for="gen-validity">Validity Duration</label>
+                  <select id="gen-validity">
+                    <option value="1">1 Day (Demo Pass)</option>
+                    <option value="7">7 Days (Weekly)</option>
+                    <option value="15">15 Days (Bi-weekly)</option>
+                    <option value="30" selected>30 Days (1 Month Standard)</option>
+                    <option value="60">60 Days (2 Months VIP)</option>
+                    <option value="90">90 Days (Quarterly)</option>
+                    <option value="180">180 Days (Half Year)</option>
+                    <option value="365">365 Days (1 Year Annual Pass)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="gen-notes">Administrative Notes / Tag</label>
+                <input type="text" id="gen-notes" placeholder="e.g. VIP Batch Customer Order #1042">
+              </div>
+
+              <button type="submit" class="btn btn-primary" id="btn-generate-submit">
+                ⚡ GENERATE CODES
+              </button>
+            </form>
+          </div>
+
+          <!-- Generated Batch Output -->
+          <div id="generated-output-card" class="card mt-4" style="display:none;">
+            <div class="card-header">
+              <h3>Generated Batch Codes (<span id="gen-batch-count">0</span>)</h3>
+              <div class="card-actions">
+                <button class="btn btn-sm btn-outline" id="btn-copy-generated">Copy All</button>
+                <button class="btn btn-sm btn-primary" id="btn-download-generated">Export CSV</button>
+              </div>
+            </div>
+            <div id="generated-codes-list" class="codes-code-chips"></div>
+          </div>
+        </section>
+
+        <!-- 3. Code Management Tab -->
+        <section id="tab-codes" class="tab-pane">
+          <div class="section-header">
+            <h2>Activation Code Inventory</h2>
+            <div class="section-actions">
+              <button class="btn btn-outline btn-sm" id="btn-export-all-csv">📥 Export All CSV</button>
+            </div>
+          </div>
+
+          <!-- Filters Row -->
+          <div class="filters-bar">
+            <input type="text" id="filter-search" class="search-input" placeholder="Search by code, device ID, user ID...">
+            <div class="filter-pills">
+              <button class="pill active" data-filter="">All</button>
+              <button class="pill" data-filter="ACTIVE">Active</button>
+              <button class="pill" data-filter="USED">Used</button>
+              <button class="pill" data-filter="EXPIRED">Expired</button>
+              <button class="pill" data-filter="DISABLED">Disabled</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Activation Code</th>
+                    <th>Status</th>
+                    <th>Validity</th>
+                    <th>Bound Device</th>
+                    <th>Created</th>
+                    <th>Expiry</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="codes-table-body">
+                  <!-- Populated dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. Servers Tab -->
+        <section id="tab-servers" class="tab-pane">
+          <div class="section-header">
+            <h2>VPN Server Nodes</h2>
+            <button class="btn btn-primary btn-sm" id="btn-add-server-modal">+ Add Server</button>
+          </div>
+
+          <div class="servers-grid" id="servers-cards-grid">
+            <!-- Populated dynamically -->
+          </div>
+        </section>
+
+        <!-- 5. Live Connections Tab -->
+        <section id="tab-connections" class="tab-pane">
+          <div class="section-header">
+            <h2>Active WireGuard Tunnels</h2>
+            <button class="btn btn-outline btn-sm" id="btn-refresh-conns">Refresh Sessions</button>
+          </div>
+
+          <div class="card">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>User ID</th>
+                    <th>Device ID</th>
+                    <th>Server</th>
+                    <th>Virtual IP</th>
+                    <th>Connected At</th>
+                    <th>Protocol</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="connections-table-body">
+                  <!-- Populated dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. Audit Logs Tab -->
+        <section id="tab-audit" class="tab-pane">
+          <div class="section-header">
+            <h2>Audit & Security Logs</h2>
+          </div>
+
+          <div class="card">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Timestamp</th>
+                    <th>Action</th>
+                    <th>Target</th>
+                    <th>Admin / Issuer</th>
+                    <th>Details</th>
+                  </tr>
+                </thead>
+                <tbody id="audit-table-body">
+                  <!-- Populated dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

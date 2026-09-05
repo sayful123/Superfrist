@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: superfrist-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: superfrist_vpn
+      POSTGRES_USER: superfrist_user
+      POSTGRES_PASSWORD: SuperFristDb2026!
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./schema.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U superfrist_user -d superfrist_vpn"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: superfrist-api
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      NODE_ENV: production
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: superfrist_user
+      DB_PASSWORD: SuperFristDb2026!
+      DB_NAME: superfrist_vpn
+      JWT_SECRET: super_frist_vpn_production_secret_key_2026
+
+volumes:
+  postgres_data:

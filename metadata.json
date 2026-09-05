@@ -1,0 +1,6 @@
+{
+  "name": "Super Frist",
+  "description": "Super Frist - Secure High-Speed VPN with Activation Code System and Server Management",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
